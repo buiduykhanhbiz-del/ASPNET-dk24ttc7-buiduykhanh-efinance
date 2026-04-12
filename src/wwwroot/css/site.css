@@ -1,0 +1,187 @@
+﻿@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+body {
+    background-color: #f5f7fb;  
+}
+
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1e293b, #0f172a);
+}
+
+    .sidebar .nav-link {
+        color: #cbd5f1;
+        padding: 10px 15px;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+        .sidebar .nav-link:hover {
+            background-color: #334155;
+            color: #fff;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 8px;
+        }
+
+.topbar {
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.content {
+    padding: 25px;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+html {
+    font-size: 14px;
+}
+
+/* Hiệu ứng phóng nhẹ khi di chuột qua */
+.custom-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px; /* Bo góc hiện đại hơn */
+    overflow: hidden;
+}
+
+    .custom-card:hover {
+        transform: translateY(-8px); /* Nhấc card lên */
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12) !important;
+    }
+
+/* Nút xóa kiểu mềm mại (soft danger) */
+.btn-soft-danger {
+    background-color: #fff5f5;
+    color: #e3342f;
+    border: 1px solid #fed7d7;
+}
+
+    .btn-soft-danger:hover {
+        background-color: #e3342f;
+        color: white;
+    }
+
+/* Khoảng cách chữ cho tiêu đề nhỏ */
+.ls-1 {
+    letter-spacing: 0.5px;
+}
+
+
+/* Màu nền nhạt cho Badge */
+.bg-success-soft {
+    background-color: #e6fcf5 !important;
+}
+
+.bg-danger-soft {
+    background-color: #fff5f5 !important;
+}
+
+.bg-primary-soft {
+    background-color: #e7f5ff !important;
+}
+
+/* Font chữ tiêu đề bảng nhỏ và thoáng */
+.uppercase-sm {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+/* Avatar nhỏ cho icon danh mục */
+.avatar-xs {
+    height: 24px;
+    width: 24px;
+    font-size: 12px;
+}
+
+/* Hiệu ứng cho nút trong bảng */
+.hover-primary:hover {
+    color: #0d6efd !important;
+    background: transparent;
+}
+
+.hover-danger:hover {
+    color: #dc3545 !important;
+    background: transparent;
+}
+
+/* Giãn dòng bảng cho thoáng */
+.table > :not(caption) > * > * {
+    padding: 1rem 0.5rem;
+}
+
+/* Hiệu ứng nút bấm đồng nhất */
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.btn-primary.transition-all:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.25) !important;
+}
+
+/* Typography cho Dashboard */
+h2.fw-bold {
+    letter-spacing: -0.5px;
+}
+
+.text-muted.small {
+    font-size: 0.875rem;
+}
+
+/* Loại bỏ viền mặc định khi click vào select */
+.form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    border: none;
+}
+
+/* Hiệu ứng di chuột cho cả 3 khối */
+.form-select, .btn {
+    transition: all 0.2s ease-in-out;
+}
+
+    .form-select:hover {
+        filter: brightness(0.95);
+        transform: translateY(-1px);
+    }
+
+.transition-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3) !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

@@ -1,0 +1,245 @@
+@{
+    ViewData["Title"] = "Thống Kê Tài Chính";
+    var totalIncome = (decimal)ViewBag.TotalIncome;
+    var totalExpense = (decimal)ViewBag.TotalExpense;
+    var difference = (decimal)ViewBag.Difference;
+    var categoryStats = ViewBag.CategoryStats as IEnumerable<dynamic> ?? new List<dynamic>();
+    var typeStats = ViewBag.TypeStats as IEnumerable<dynamic> ?? new List<dynamic>();
+    var month = ViewBag.Month as int?;
+    var year = ViewBag.Year as int?;
+    var now = DateTime.Now;
+    var currentYear = year ?? now.Year;
+    var currentMonth = month ?? now.Month;
+}
+
+<div class="container py-4">
+    <h2 class="fw-bold text-dark mb-4">Thống Kê Thu Chi</h2>
+
+    <form method="get" class="row g-3 align-items-center mb-5">
+        <div class="col-md-4">
+            <div class="position-relative">
+                <select name="month" class="form-select border-0 py-3 rounded-3 shadow-sm fw-bold text-success bg-success bg-opacity-10 cursor-pointer">
+                    <option value="" class="text-dark">Tất cả tháng</option>
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                    <option value="@m" selected="@(currentMonth == m && month.HasValue ? "selected" : null)" class="text-dark">Tháng @m</option>
+                    }
+                </select>
+                <i class="bi bi-calendar-month position-absolute top-50 end-0 translate-middle-y me-3 text-success"></i>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-relative">
+                <select name="year" class="form-select border-0 py-3 rounded-3 shadow-sm fw-bold text-warning bg-warning bg-opacity-10 cursor-pointer">
+                    <option value="" class="text-dark">Tất cả năm</option>
+                    @for (int y = now.Year; y >= now.Year - 10; y--)
+                    {
+                    <option value="@y" selected="@(currentYear == y && year.HasValue ? "selected" : null)" class="text-dark">Năm @y</option>
+                    }
+                </select>
+                <i class="bi bi-calendar3 position-absolute top-50 end-0 translate-middle-y me-3 text-warning"></i>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm border-0 transition-hover">
+                <i class="bi bi-funnel-fill me-2"></i>Áp dụng bộ lọc
+            </button>
+        </div>
+    </form>
+
+    <div class="row g-3 mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 bg-success bg-opacity-10 border-start border-success border-4 h-100">
+                <div class="card-body">
+                    <p class="text-success small fw-bold mb-1 text-uppercase">Tổng thu</p>
+                    <h3 class="fw-bold text-success mb-0">@totalIncome.ToString("#,##0") <small class="fs-6">đ</small></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 bg-danger bg-opacity-10 border-start border-danger border-4 h-100">
+                <div class="card-body">
+                    <p class="text-danger small fw-bold mb-1 text-uppercase">Tổng chi</p>
+                    <h3 class="fw-bold text-danger mb-0">@totalExpense.ToString("#,##0") <small class="fs-6">đ</small></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 @(difference >= 0 ? "bg-primary border-primary" : "bg-warning border-warning") bg-opacity-10 border-start border-4 h-100">
+                <div class="card-body">
+                    <p class="@(difference >= 0 ? "text-primary" : "text-warning") small fw-bold mb-1 text-uppercase">Tài sản hiện có</p>
+                    <h3 class="fw-bold @(difference >= 0 ? "text-primary" : "text-warning") mb-0">@difference.ToString("#,##0") <small class="fs-6">đ</small></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h6 class="fw-bold mb-4 text-muted">CƠ CẤU DANH MỤC (%)</h6>
+                <div style="height: 350px;">
+                    <canvas id="categoryPie"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <h6 class="fw-bold mb-4 text-muted">SO SÁNH THU - CHI</h6>
+                <div style="height: 350px;">
+                    <canvas id="typeBar"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <h5 class="fw-bold mb-3">Chi tiết danh mục</h5>
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Tên danh mục</th>
+                            <th class="text-end pe-4">Số tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cat in categoryStats)
+                        {
+                        <tr>
+                            <td class="ps-4 fw-medium">@cat.Category</td>
+                            <td class="text-end pe-4 fw-bold text-primary">@cat.Total.ToString("#,##0") đ</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h5 class="fw-bold mb-3">Tỷ trọng dòng tiền</h5>
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Phân loại</th>
+                            <th class="text-end pe-4">Số tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in typeStats)
+                        {
+                        <tr>
+                            <td class="ps-4">
+                                <span class="badge rounded-pill @(t.Type == "Expense" ? "bg-danger" : "bg-success") px-3">
+                                    @(t.Type == "Expense" ? "Tiền chi" : "Tiền thu")
+                                </span>
+                            </td>
+                            <td class="text-end pe-4 fw-bold @(t.Type == "Expense" ? "text-danger" : "text-success")">
+                                @t.Total.ToString("#,##0") đ
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .transition-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(13, 110, 253, 0.2) !important;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .form-select:focus {
+        box-shadow: none;
+        border: none;
+    }
+
+    canvas {
+        width: 100% !important;
+    }
+</style>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Đăng ký Plugin hiển thị nhãn
+            Chart.register(ChartDataLabels);
+
+            const categoryStats = @Html.Raw(Json.Serialize(categoryStats));
+            const typeStats = @Html.Raw(Json.Serialize(typeStats));
+
+            // Tính tổng để tính % cho biểu đồ Pie
+            const totalSum = categoryStats.reduce((a, b) => a + b.total, 0);
+
+            // 1. BIỂU ĐỒ PIE DANH MỤC
+            new Chart(document.getElementById('categoryPie'), {
+                type: 'pie',
+                data: {
+                    labels: categoryStats.map(c => c.category),
+                    datasets: [{
+                        data: categoryStats.map(c => c.total),
+                        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff', '#ff9f40', '#47d147', '#ffb3b3'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true } },
+                        datalabels: {
+                            color: '#fff',
+                            font: { weight: 'bold', size: 12 },
+                            formatter: (value, ctx) => {
+                                let label = ctx.chart.data.labels[ctx.dataIndex];
+                                let percentage = (value * 100 / totalSum).toFixed(1) + "%";
+                                return (value * 100 / totalSum) > 5 ? label + "\n" + percentage : "";
+                            },
+                            textAlign: 'center'
+                        }
+                    }
+                }
+            });
+
+            // 2. BIỂU ĐỒ CỘT THU CHI
+            new Chart(document.getElementById('typeBar'), {
+                type: 'bar',
+                data: {
+                    labels: typeStats.map(t => t.type == 'Expense' ? 'Chi tiêu' : 'Thu nhập'),
+                    datasets: [{
+                        label: 'Số tiền (đ)',
+                        data: typeStats.map(t => t.total),
+                        backgroundColor: typeStats.map(t => t.type == 'Expense' ? '#dc3545' : '#198754'),
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: { display: false } // Tắt hiện % cho biểu đồ cột
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false } }
+                    }
+                }
+            });
+        });
+    </script>
+}

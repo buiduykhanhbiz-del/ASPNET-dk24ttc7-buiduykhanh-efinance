@@ -1,0 +1,65 @@
+@model IEnumerable<PersonalFinanceManager.Models.Wallet>
+
+@{
+    ViewData["Title"] = "Ví";
+}
+
+<div class="container">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2 border-bottom">
+        <div class="mb-3 mb-md-0">
+            <h2 class="fw-bold text-dark mb-1">Danh Sách Ví</h2>
+            <p class="text-muted small mb-0">Quản lý và theo dõi nguồn tiền của bạn</p>
+        </div>
+
+        <div>
+            <a asp-action="Create" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm d-flex align-items-center transition-all">
+                <i class="bi bi-plus-lg me-2"></i>
+                <span class="fw-medium">Thêm Ví Mới</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var wallet in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-1 custom-card transition-all">
+                    <div class="card-header bg-transparent border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                        <h5 class="card-title fw-bold text-primary mb-0">
+                            <i class="bi bi-wallet2 me-2"></i>@wallet.Name
+                        </h5>
+                        <span class="badge rounded-pill bg-light text-dark border px-3">@wallet.Type</span>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="balance-section my-3 p-3 bg-light rounded-3 text-center">
+                            <small class="text-muted d-block text-uppercase fw-bold ls-1">Số dư hiện tại</small>
+                            <h3 class="fw-bold text-success mb-0">@wallet.Balance.ToString("#,##0") <small>đ</small></h3>
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(wallet.Description))
+            {
+                        <p class="card-text text-muted small">
+                            <i class="bi bi-info-circle me-1"></i> @wallet.Description
+                        </p>
+            }
+                    </div>
+
+                    <div class="card-footer bg-transparent border-0 pb-4">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Edit" asp-route-id="@wallet.Id" class="btn btn-sm btn-outline-primary px-3 rounded-pill">
+                                <i class="bi bi-pencil-square me-1"></i> Chỉnh sửa
+                            </a>
+                            <form asp-action="Delete" asp-route-id="@wallet.Id" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-sm btn-soft-danger px-3 rounded-pill"
+                                        onclick="return confirm('Bạn có chắc chắn muốn xóa ví này?')">
+                                    <i class="bi bi-trash3 me-1"></i> Xóa bỏ
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div> 

@@ -1,0 +1,93 @@
+@model PersonalFinanceManager.Models.Budget
+
+@{
+    ViewData["Title"] = "Sửa Ngân Sách";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Sửa Ngân Sách</h2>
+            </div>
+            <div class="card-body">
+                <form asp-action="Edit" onsubmit="return formatNumberBeforeSubmit(this)">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group mb-3">
+                        <label asp-for="Category" class="control-label">Danh Mục</label>
+                        <select asp-for="Category" class="form-control">
+                            <option value="Ăn Uống">Ăn Uống</option>
+                            <option value="Mua Sắm">Mua Sắm</option>
+                            <option value="Giải Trí">Giải Trí</option>
+                            <option value="Di Chuyển">Di Chuyển</option>
+                            <option value="Hóa Đơn">Hóa Đơn</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                        <span asp-validation-for="Category" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Amount" class="control-label">Số Tiền</label>
+                        <input asp-for="Amount" class="form-control" type="number" step="1" min="0" value="@Model.Amount.ToString("0")" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Period" class="control-label">Chu Kỳ</label>
+                        <select asp-for="Period" class="form-control">
+                            <option value="Hàng Ngày">Hàng Ngày</option>
+                            <option value="Hàng Tuần">Hàng Tuần</option>
+                            <option value="Hàng Tháng">Hàng Tháng</option>
+                            <option value="Hàng Năm">Hàng Năm</option>
+                        </select>
+                        <span asp-validation-for="Period" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="StartDate" class="control-label">Ngày Bắt Đầu</label>
+                        <input asp-for="StartDate" class="form-control" type="date" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="EndDate" class="control-label">Ngày Kết Thúc</label>
+                        <input asp-for="EndDate" class="form-control" type="date" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Description" class="control-label">Mô Tả</label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <a asp-action="Index" class="btn btn-secondary">Quay Lại</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function formatNumber(input) {
+            // Remove all non-numeric characters
+            let value = input.value.replace(/[^\d]/g, '');
+            
+            // Format with thousand separators
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            
+            // Update input value
+            input.value = value;
+        }
+
+        function formatNumberBeforeSubmit(form) {
+            // Get the amount input
+            const amountInput = form.querySelector('input[name="Amount"]');
+            
+            // Remove all dots before submitting
+            amountInput.value = amountInput.value.replace(/\./g, '');
+            
+            return true;
+        }
+    </script>
+} 

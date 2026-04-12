@@ -4,6 +4,7 @@ Dự án này giúp quản lý các nguồn tiền như:
 * **Lương thưởng**
 * **Ví, ngân hàng**
 * **Nguồn thu phụ**
+* **Chi tiêu**
 
 ### Công nghệ sử dụng:
 1. ASP.NET Core
@@ -12,6 +13,6 @@ Dự án này giúp quản lý các nguồn tiền như:
 
 ### Liên hệ:
 
-* ** Zalo/sdt: 0326889253**
-* ** Email: buiduykhanh.biz@gmail.com **
-* ** Email TVU: khanhbd220801@tvu-onschool.edu.vn **
+* **Zalo/sdt: 0326889253**
+* **Email: buiduykhanh.biz@gmail.com**
+* **Email TVU: khanhbd220801@tvu-onschool.edu.vn**

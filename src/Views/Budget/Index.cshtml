@@ -1,0 +1,94 @@
+@model IEnumerable<PersonalFinanceManager.Models.Budget>
+
+@{
+    ViewData["Title"] = "Ngân Sách";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark mb-4">Danh Sách Ngân Sách</h2>
+        <div>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-lg me-2"></i>Thêm Ngân Sách Mới
+            </a>
+        </div>
+    </div>
+
+    @if (ViewBag.Alert != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            @ViewBag.Alert
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light-subtle">
+                <tr>
+                    <th class="ps-4 py-3 text-secondary text-uppercase small fw-bold">Danh Mục</th>
+                    <th class="py-3 text-secondary text-uppercase small fw-bold text-end">Số Tiền</th>
+                    <th class="py-3 text-secondary text-uppercase small fw-bold text-center">Chu Kỳ</th>
+                    <th class="py-3 text-secondary text-uppercase small fw-bold text-center">Thời Gian</th>
+                    <th class="py-3 text-secondary text-uppercase small fw-bold">Mô Tả</th>
+                    <th class="pe-4 py-3 text-secondary text-uppercase small fw-bold text-end">Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="ps-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box me-2 bg-primary-soft text-primary rounded-circle">
+                                <i class="bi bi-tag-fill"></i>
+                            </div>
+                            <span class="fw-semibold">@item.Category</span>
+                        </div>
+                    </td>
+                    <td class="text-end fw-bold text-dark">@item.Amount.ToString("#,##0") <small class="text-muted">đ</small></td>
+                    <td class="text-center">
+                        <span class="badge rounded-pill bg-info-soft text-info px-3">
+                            <i class="bi bi-arrow-repeat me-1"></i> @item.Period
+                        </span>
+                    </td>
+                    <td class="text-center">
+                        <div class="small text-muted">@item.StartDate.ToString("dd/MM/yyyy")</div>
+                        <div class="small text-muted" style="font-size: 0.7rem;">đến @item.EndDate.ToString("dd/MM/yyyy")</div>
+                    </td>
+                    <td>
+                        <span class="text-truncate d-inline-block text-muted small" style="max-width: 150px;">
+                            @item.Description
+                        </span>
+                    </td>
+                    <td class="pe-4 text-end">
+                        <div class="btn-group shadow-none">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-link-secondary p-2" title="Sửa">
+                                <i class="bi bi-pencil-square text-primary"></i>
+                            </a>
+                            <a asp-action="CheckStatus" asp-route-id="@item.Id" class="btn btn-link-secondary p-2" title="Chi tiết">
+                                <i class="bi bi-bar-chart-fill text-info"></i>
+                            </a>
+                            <button type="button" class="btn btn-link-secondary p-2" onclick="confirmDelete(@item.Id)" title="Xóa">
+                                <i class="bi bi-trash3 text-danger"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(id) {
+            if (confirm("Bạn có chắc chắn muốn xóa ngân sách này?")) {
+                window.location.href = `/Budget/Delete/${id}`;
+            }
+        }
+    </script>
+} 
