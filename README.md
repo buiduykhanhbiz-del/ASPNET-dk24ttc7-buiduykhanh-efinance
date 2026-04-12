@@ -13,6 +13,8 @@ Dự án này giúp quản lý các nguồn tiền như:
 
 ### Liên hệ:
 
+* **Họ tên: Bùi Duy Khánh**
+* **MSSV: 170124742 - DK24TTC7**
 * **Zalo/sdt: 0326889253**
 * **Email: buiduykhanh.biz@gmail.com**
 * **Email TVU: khanhbd220801@tvu-onschool.edu.vn**
