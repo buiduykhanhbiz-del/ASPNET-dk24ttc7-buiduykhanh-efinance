@@ -149,34 +149,34 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
-    <style>
-        .cursor-pointer {
-            cursor: pointer;
-        }
+<style>
+    .cursor-pointer {
+        cursor: pointer;
+    }
 
-        .transition-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(13, 110, 253, 0.2) !important;
-            transition: all 0.2s ease-in-out;
-        }
+    .transition-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(13, 110, 253, 0.2) !important;
+        transition: all 0.2s ease-in-out;
+    }
 
-        .form-select:focus {
-            box-shadow: none;
-            border: none;
-        }
+    .form-select:focus {
+        box-shadow: none;
+        border: none;
+    }
 
-        canvas {
-            width: 100% !important;
-        }
-    </style>
+    canvas {
+        width: 100% !important;
+    }
+</style>
 
-    @section Scripts {
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
-        <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Đăng ký Plugin hiển thị nhãn
             Chart.register(ChartDataLabels);
@@ -243,5 +243,5 @@
                 }
             });
         });
-        </script>
-    }
+    </script>
+}
