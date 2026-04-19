@@ -4,65 +4,99 @@
     ViewData["Title"] = "Sửa Giao Dịch";
 }
 
-<div class="container">
-    <h2>Sửa Giao Dịch</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center rounded-top-4 py-3">
+                    <h4 class="mb-0 fw-bold">💸 Sửa Giao Dịch</h4>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+
                     <form asp-action="Edit" onsubmit="return formatNumberBeforeSubmit(this)">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" />
-                
-                <div class="form-group mb-3">
-                            <label asp-for="Type" class="control-label">Loại Giao Dịch</label>
-                    <select asp-for="Type" class="form-control">
-                                <option value="Income">Thu</option>
-                                <option value="Expense">Chi</option>
-                    </select>
-                    <span asp-validation-for="Type" class="text-danger"></span>
-                </div>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2"></div>
+                        <input type="hidden" asp-for="Id" />
 
-                <div class="form-group mb-3">
-                            <label asp-for="Amount" class="control-label">Số Tiền</label>
-                            <input asp-for="Amount" class="form-control" type="number" step="1" min="0" value="@Model.Amount.ToString("0")" />
-                    <span asp-validation-for="Amount" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
-                            <label asp-for="Category" class="control-label">Danh Mục</label>
-                    <input asp-for="Category" class="form-control" />
-                    <span asp-validation-for="Category" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
-                            <label asp-for="Description" class="control-label">Mô Tả</label>
-                    <textarea asp-for="Description" class="form-control"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
-                            <label asp-for="TransactionDate" class="control-label">Ngày</label>
-                    <input asp-for="TransactionDate" class="form-control" type="date" />
-                    <span asp-validation-for="TransactionDate" class="text-danger"></span>
-                </div>
-
-                <div class="form-group mb-3">
-                            <label asp-for="WalletId" class="control-label">Ví</label>
-                    <select asp-for="WalletId" class="form-control" asp-items="@(new SelectList(ViewBag.Wallets, "Id", "Name"))">
-                                <option value="">Chọn ví</option>
-                    </select>
-                    <span asp-validation-for="WalletId" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Lưu</button>
-                            <a asp-action="Index" class="btn btn-secondary">Quay Lại</a>
+                        <!-- Loại giao dịch -->
+                        <div class="mb-3">
+                            <label asp-for="Type" class="form-label fw-semibold">Loại Giao Dịch</label>
+                            <select asp-for="Type" class="form-select">
+                                <option value="">-- Chọn loại --</option>
+                                <option value="Income">💰 Thu</option>
+                                <option value="Expense">💸 Chi</option>
+                            </select>
+                            <span asp-validation-for="Type" class="text-danger small"></span>
                         </div>
+
+                        <!-- Số tiền -->
+                        <div class="mb-3">
+                            <label asp-for="Amount" class="form-label fw-semibold">Số Tiền</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">₫</span>
+                                <input asp-for="Amount"
+                                       class="form-control text-end fw-semibold"
+                                       type="text"
+                                       value="@Model.Amount.ToString("#,##0")"
+                                       onkeyup="formatNumber(this)"
+                                       placeholder="0" />
+                            </div>
+                            <span asp-validation-for="Amount" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Danh mục -->
+                        <div class="mb-3">
+                            <label asp-for="Category" class="form-label fw-semibold">Danh Mục</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">📂</span>
+                                <input asp-for="Category" class="form-control" placeholder="Nhập danh mục..." />
+                            </div>
+                            <span asp-validation-for="Category" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Mô tả -->
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label fw-semibold">Mô Tả</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Ghi chú thêm..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Ngày -->
+                        <div class="mb-3">
+                            <label asp-for="TransactionDate" class="form-label fw-semibold">Ngày</label>
+                            <input asp-for="TransactionDate" class="form-control" type="date" />
+                            <span asp-validation-for="TransactionDate" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Ví -->
+                        <div class="mb-4">
+                            <label asp-for="WalletId" class="form-label fw-semibold">Ví</label>
+                            <select asp-for="WalletId" class="form-select"
+                                    asp-items="@(new SelectList(ViewBag.Wallets, "Id", "Name"))">
+                                <option value="">-- Chọn ví --</option>
+                            </select>
+                            <span asp-validation-for="WalletId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                                ← Quay Lại
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                                💾 Lưu
+                            </button>
+                        </div>
+
                     </form>
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>

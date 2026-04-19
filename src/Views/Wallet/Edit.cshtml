@@ -4,46 +4,80 @@
     ViewData["Title"] = "Sửa Ví";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h2 class="text-center">Sửa Ví</h2>
-            </div>
-            <div class="card-body">
-                <form asp-action="Edit" onsubmit="return formatNumberBeforeSubmit(this)">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="Id" />
-                    <div class="form-group mb-3">
-                        <label asp-for="Name" class="control-label">Tên Ví</label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="Type" class="control-label">Loại Ví</label>
-                        <select asp-for="Type" class="form-control">
-                            <option value="Cash">Tiền Mặt</option>
-                            <option value="Bank">Tài Khoản Ngân Hàng</option>
-                            <option value="E-wallet">Ví Điện Tử</option>
-                            <option value="Credit Card">Thẻ Tín Dụng</option>
-                        </select>
-                        <span asp-validation-for="Type" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="Balance" class="control-label">Số Dư</label>
-                        <input asp-for="Balance" class="form-control" type="text" value="@Model.Balance.ToString("#,##0")" onkeyup="formatNumber(this)" />
-                        <span asp-validation-for="Balance" class="text-danger"></span>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label asp-for="Description" class="control-label">Mô Tả</label>
-                        <textarea asp-for="Description" class="form-control"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary">Lưu</button>
-                        <a asp-action="Index" class="btn btn-secondary">Quay Lại</a>
-                    </div>
-                </form>
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+            <div class="card shadow-lg border-0 rounded-4">
+
+                <!-- Header -->
+                <div class="card-header bg-primary text-white text-center rounded-top-4">
+                    <h4 class="mb-0 fw-bold">💰 Sửa Ví</h4>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body p-4">
+
+                    <form asp-action="Edit" onsubmit="return formatNumberBeforeSubmit(this)">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input type="hidden" asp-for="Id" />
+
+                        <!-- Tên ví -->
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-semibold">Tên Ví</label>
+                            <div class="input-group">
+                                <span class="input-group-text">📂</span>
+                                <input asp-for="Name" class="form-control" placeholder="Nhập tên ví..." />
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Loại ví -->
+                        <div class="mb-3">
+                            <label asp-for="Type" class="form-label fw-semibold">Loại Ví</label>
+                            <select asp-for="Type" class="form-select">
+                                <option value="">-- Chọn loại ví --</option>
+                                <option value="Cash">💵 Tiền Mặt</option>
+                                <option value="Bank">🏦 Ngân Hàng</option>
+                                <option value="E-wallet">📱 Ví Điện Tử</option>
+                                <option value="Credit Card">💳 Thẻ Tín Dụng</option>
+                            </select>
+                            <span asp-validation-for="Type" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Số dư -->
+                        <div class="mb-3">
+                            <label asp-for="Balance" class="form-label fw-semibold">Số Dư</label>
+                            <div class="input-group">
+                                <span class="input-group-text">₫</span>
+                                <input asp-for="Balance"
+                                       class="form-control text-end"
+                                       type="text"
+                                       value="@Model.Balance.ToString("#,##0")"
+                                       onkeyup="formatNumber(this)"
+                                       placeholder="0" />
+                            </div>
+                            <span asp-validation-for="Balance" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Mô tả -->
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-semibold">Mô Tả</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Ghi chú thêm..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4">
+                                ← Quay Lại
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+                                💾 Lưu
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -12,169 +12,171 @@
     var currentMonth = month ?? now.Month;
 }
 
-<div class="container py-4">
-    <h2 class="fw-bold text-dark mb-4">Thống Kê Thu Chi</h2>
+<div class="container">
+    <div class="flex-grow-1 d-flex flex-column bg-white" style="margin-left:250px;">
+        <h2 class="fw-bold text-dark mb-4">Thống Kê Thu Chi</h2>
 
-    <form method="get" class="row g-3 align-items-center mb-5">
-        <div class="col-md-4">
-            <div class="position-relative">
-                <select name="month" class="form-select border-0 py-3 rounded-3 shadow-sm fw-bold text-success bg-success bg-opacity-10 cursor-pointer">
-                    <option value="" class="text-dark">Tất cả tháng</option>
-                    @for (int m = 1; m <= 12; m++)
+        <form method="get" class="row g-3 align-items-center mb-5">
+            <div class="col-md-4">
+                <div class="position-relative">
+                    <select name="month" class="form-select border-0 py-3 rounded-3 shadow-sm fw-bold text-success bg-success bg-opacity-10 cursor-pointer">
+                        <option value="" class="text-dark">Tất cả tháng</option>
+                        @for (int m = 1; m <= 12; m++)
                     {
-                    <option value="@m" selected="@(currentMonth == m && month.HasValue ? "selected" : null)" class="text-dark">Tháng @m</option>
+                        <option value="@m" selected="@(currentMonth == m && month.HasValue ? "selected" : null)" class="text-dark">Tháng @m</option>
                     }
-                </select>
-                <i class="bi bi-calendar-month position-absolute top-50 end-0 translate-middle-y me-3 text-success"></i>
+                    </select>
+                    <i class="bi bi-calendar-month position-absolute top-50 end-0 translate-middle-y me-3 text-success"></i>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="position-relative">
-                <select name="year" class="form-select border-0 py-3 rounded-3 shadow-sm fw-bold text-warning bg-warning bg-opacity-10 cursor-pointer">
-                    <option value="" class="text-dark">Tất cả năm</option>
-                    @for (int y = now.Year; y >= now.Year - 10; y--)
+            <div class="col-md-4">
+                <div class="position-relative">
+                    <select name="year" class="form-select border-0 py-3 rounded-3 shadow-sm fw-bold text-warning bg-warning bg-opacity-10 cursor-pointer">
+                        <option value="" class="text-dark">Tất cả năm</option>
+                        @for (int y = now.Year; y >= now.Year - 10; y--)
                     {
-                    <option value="@y" selected="@(currentYear == y && year.HasValue ? "selected" : null)" class="text-dark">Năm @y</option>
+                        <option value="@y" selected="@(currentYear == y && year.HasValue ? "selected" : null)" class="text-dark">Năm @y</option>
                     }
-                </select>
-                <i class="bi bi-calendar3 position-absolute top-50 end-0 translate-middle-y me-3 text-warning"></i>
+                    </select>
+                    <i class="bi bi-calendar3 position-absolute top-50 end-0 translate-middle-y me-3 text-warning"></i>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm border-0 transition-hover">
+                    <i class="bi bi-funnel-fill me-2"></i>Áp dụng bộ lọc
+                </button>
+            </div>
+        </form>
+
+        <div class="row g-3 mb-5">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 bg-success bg-opacity-10 border-start border-success border-4 h-100">
+                    <div class="card-body">
+                        <p class="text-success small fw-bold mb-1 text-uppercase">Tổng thu</p>
+                        <h3 class="fw-bold text-success mb-0">@totalIncome.ToString("#,##0") <small class="fs-6">đ</small></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 bg-danger bg-opacity-10 border-start border-danger border-4 h-100">
+                    <div class="card-body">
+                        <p class="text-danger small fw-bold mb-1 text-uppercase">Tổng chi</p>
+                        <h3 class="fw-bold text-danger mb-0">@totalExpense.ToString("#,##0") <small class="fs-6">đ</small></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm rounded-4 @(difference >= 0 ? "bg-primary border-primary" : "bg-warning border-warning") bg-opacity-10 border-start border-4 h-100">
+                    <div class="card-body">
+                        <p class="@(difference >= 0 ? "text-primary" : "text-warning") small fw-bold mb-1 text-uppercase">Tài sản hiện có</p>
+                        <h3 class="fw-bold @(difference >= 0 ? "text-primary" : "text-warning") mb-0">@difference.ToString("#,##0") <small class="fs-6">đ</small></h3>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary w-100 py-3 rounded-3 fw-bold shadow-sm border-0 transition-hover">
-                <i class="bi bi-funnel-fill me-2"></i>Áp dụng bộ lọc
-            </button>
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    <h6 class="fw-bold mb-4 text-muted">CƠ CẤU DANH MỤC (%)</h6>
+                    <div style="height: 350px;">
+                        <canvas id="categoryPie"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 p-4">
+                    <h6 class="fw-bold mb-4 text-muted">SO SÁNH THU - CHI</h6>
+                    <div style="height: 350px;">
+                        <canvas id="typeBar"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
 
-    <div class="row g-3 mb-5">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 bg-success bg-opacity-10 border-start border-success border-4 h-100">
-                <div class="card-body">
-                    <p class="text-success small fw-bold mb-1 text-uppercase">Tổng thu</p>
-                    <h3 class="fw-bold text-success mb-0">@totalIncome.ToString("#,##0") <small class="fs-6">đ</small></h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 bg-danger bg-opacity-10 border-start border-danger border-4 h-100">
-                <div class="card-body">
-                    <p class="text-danger small fw-bold mb-1 text-uppercase">Tổng chi</p>
-                    <h3 class="fw-bold text-danger mb-0">@totalExpense.ToString("#,##0") <small class="fs-6">đ</small></h3>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 @(difference >= 0 ? "bg-primary border-primary" : "bg-warning border-warning") bg-opacity-10 border-start border-4 h-100">
-                <div class="card-body">
-                    <p class="@(difference >= 0 ? "text-primary" : "text-warning") small fw-bold mb-1 text-uppercase">Tài sản hiện có</p>
-                    <h3 class="fw-bold @(difference >= 0 ? "text-primary" : "text-warning") mb-0">@difference.ToString("#,##0") <small class="fs-6">đ</small></h3>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row g-4 mb-5">
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-4 p-4">
-                <h6 class="fw-bold mb-4 text-muted">CƠ CẤU DANH MỤC (%)</h6>
-                <div style="height: 350px;">
-                    <canvas id="categoryPie"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-4 p-4">
-                <h6 class="fw-bold mb-4 text-muted">SO SÁNH THU - CHI</h6>
-                <div style="height: 350px;">
-                    <canvas id="typeBar"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row g-4">
-        <div class="col-md-6">
-            <h5 class="fw-bold mb-3">Chi tiết danh mục</h5>
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light">
-                        <tr>
-                            <th class="ps-4">Tên danh mục</th>
-                            <th class="text-end pe-4">Số tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var cat in categoryStats)
+        <div class="row g-4">
+            <div class="col-md-6">
+                <h5 class="fw-bold mb-3">Chi tiết danh mục</h5>
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Tên danh mục</th>
+                                <th class="text-end pe-4">Số tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cat in categoryStats)
                         {
-                        <tr>
-                            <td class="ps-4 fw-medium">@cat.Category</td>
-                            <td class="text-end pe-4 fw-bold text-primary">@cat.Total.ToString("#,##0") đ</td>
-                        </tr>
+                            <tr>
+                                <td class="ps-4 fw-medium">@cat.Category</td>
+                                <td class="text-end pe-4 fw-bold text-primary">@cat.Total.ToString("#,##0") đ</td>
+                            </tr>
                         }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="col-md-6">
-            <h5 class="fw-bold mb-3">Tỷ trọng dòng tiền</h5>
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light">
-                        <tr>
-                            <th class="ps-4">Phân loại</th>
-                            <th class="text-end pe-4">Số tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var t in typeStats)
+            <div class="col-md-6">
+                <h5 class="fw-bold mb-3">Tỷ trọng dòng tiền</h5>
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Phân loại</th>
+                                <th class="text-end pe-4">Số tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var t in typeStats)
                         {
-                        <tr>
-                            <td class="ps-4">
-                                <span class="badge rounded-pill @(t.Type == "Expense" ? "bg-danger" : "bg-success") px-3">
-                                    @(t.Type == "Expense" ? "Tiền chi" : "Tiền thu")
-                                </span>
-                            </td>
-                            <td class="text-end pe-4 fw-bold @(t.Type == "Expense" ? "text-danger" : "text-success")">
-                                @t.Total.ToString("#,##0") đ
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="badge rounded-pill @(t.Type == "Expense" ? "bg-danger" : "bg-success") px-3">
+                                        @(t.Type == "Expense" ? "Tiền chi" : "Tiền thu")
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4 fw-bold @(t.Type == "Expense" ? "text-danger" : "text-success")">
+                                    @t.Total.ToString("#,##0") đ
+                                </td>
+                            </tr>
                         }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    </div>
 
-<style>
-    .cursor-pointer {
-        cursor: pointer;
-    }
+    <style>
+        .cursor-pointer {
+            cursor: pointer;
+        }
 
-    .transition-hover:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(13, 110, 253, 0.2) !important;
-        transition: all 0.2s ease-in-out;
-    }
+        .transition-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(13, 110, 253, 0.2) !important;
+            transition: all 0.2s ease-in-out;
+        }
 
-    .form-select:focus {
-        box-shadow: none;
-        border: none;
-    }
+        .form-select:focus {
+            box-shadow: none;
+            border: none;
+        }
 
-    canvas {
-        width: 100% !important;
-    }
-</style>
+        canvas {
+            width: 100% !important;
+        }
+    </style>
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
-    <script>
+        <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Đăng ký Plugin hiển thị nhãn
             Chart.register(ChartDataLabels);
@@ -241,5 +243,5 @@
                 }
             });
         });
-    </script>
-}
+        </script>
+    }
