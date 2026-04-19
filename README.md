@@ -125,7 +125,7 @@ Views/
 ### 1. Clone project
 
 ```bash id="clone2"
-git clone https://github.com/your-username/efinance.git
+git clone https://github.com/buiduykhanhbiz-del/ASPNET-dk24ttc7-buiduykhanh-efinance.git
 ```
 
 ### 2. Cấu hình database
