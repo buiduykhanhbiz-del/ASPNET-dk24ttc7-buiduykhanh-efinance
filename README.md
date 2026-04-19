@@ -174,9 +174,10 @@ dotnet wath run
 
 ## 👨‍🎓 Thông tin sinh viên
 
-* Họ tên: ...
-* MSSV: ...
-* Lớp: ...
+* Họ tên: Bùi Duy Khánh
+* MSSV: 170124742
+* Lớp: DK24TTC7
+* Email: khanhbd220801@tvu-onschool.edu.vn
 
 ---
 
