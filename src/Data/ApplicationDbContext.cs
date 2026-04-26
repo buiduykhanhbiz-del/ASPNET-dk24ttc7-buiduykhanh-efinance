@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PersonalFinanceManager.Models;
 
 namespace PersonalFinanceManager.Data
@@ -43,6 +43,13 @@ namespace PersonalFinanceManager.Data
                 .WithOne(t => t.Wallet)
                 .HasForeignKey(t => t.WalletId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Tắt xóa dây chuyền giữa Wallet và Transaction
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Wallet)
+                .WithMany(w => w.Transactions)
+                .HasForeignKey(t => t.WalletId)
+                .OnDelete(DeleteBehavior.NoAction); // Hoặc Restrict
         }
     }
 } 
