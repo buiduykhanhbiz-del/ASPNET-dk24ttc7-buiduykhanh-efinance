@@ -12,7 +12,7 @@ using PersonalFinanceManager.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260426051321_InitialCreate")]
+    [Migration("20260426060707_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
