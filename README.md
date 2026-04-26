@@ -136,10 +136,10 @@ git clone https://github.com/buiduykhanhbiz-del/ASPNET-dk24ttc7-buiduykhanh-efin
 ### 3. Cập nhật database
 
 ```bash id="db2"
-donet tool restore
-donet ef database update --verbose
-donet ef migrations add InitialCreate
-donet ef database update
+dotnet tool restore
+dotnet ef database update --verbose
+dotnet ef migrations add InitialCreate
+dotnet ef database update
 ```
 
 ### 4. Chạy project
