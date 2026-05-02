@@ -2,7 +2,7 @@
 
 ## 📌 Giới thiệu
 
-**EFinance** là ứng dụng web giúp người dùng quản lý tài chính cá nhân, bao gồm ví, giao dịch, ngân sách và thống kê chi tiêu.
+**EFinance** là ứng dụng web giúp người dùng quản lý tài chính cá nhân, bao gồm quản lý ví, giao dịch, ngân sách và thống kê chi tiêu một cách trực quan và hiệu quả.
 
 ---
 
@@ -76,7 +76,7 @@
 
 ## 🗂️ Cấu trúc dự án
 
-```id="tree1"
+```
 Views/
 │
 ├── Account/
@@ -124,51 +124,79 @@ Views/
 
 ### 1. Clone project
 
-```bash id="clone2"
+```bash
 git clone https://github.com/buiduykhanhbiz-del/ASPNET-dk24ttc7-buiduykhanh-efinance.git
+cd ASPNET-dk24ttc7-buiduykhanh-efinance
 ```
 
-### 2. Cấu hình database
+---
 
-* Mở `appsettings.json`
-* Chỉnh connection string thông tin mysql
+### 2. Cấu hình Database
 
-### 3. Cập nhật database
+* Mở file `appsettings.json`
+* Chỉnh lại connection string:
 
-```bash id="db2"
+```json
+"DefaultConnection": "Server=localhost;Database=PersonalFinanceDB;Trusted_Connection=True;TrustServerCertificate=True;"
+```
+
+👉 Có thể thay:
+
+* `localhost`
+* `.`
+* `localhost\\SQLEXPRESS`
+
+---
+
+### 3. Khởi tạo Database
+
+⚠️ Chọn **1 trong 2 cách**
+
+#### 🔹 Cách 1: Entity Framework (Khuyến nghị)
+
+```bash
 dotnet tool restore
-dotnet ef database update --verbose
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
+---
+
+#### 🔹 Cách 2: Import file SQL (nếu có)
+
+1. Mở SQL Server Management Studio (SSMS)
+2. Tạo database `PersonalFinanceDB`
+3. Mở file `.sql`
+4. Execute để chạy script
+
+---
+
 ### 4. Chạy project
 
-```bash id="run2"
-dotnet wath run
+```bash
+dotnet watch run
 ```
 
 ---
 
 ## 📸 Giao diện (Demo)
 
-* Trang ví
+* Trang quản lý ví
 * Trang thống kê
 * Trang ngân sách
-
 
 ---
 
 ## 📅 Tiến độ thực hiện
 
-| Tuần | Nội dung           |
-| ---- | ------------------ |
-| 1    | Thiết kế database  |
-| 2    | CRUD ví            |
-| 3    | CRUD giao dịch     |
-| 4    | Thống kê + biểu đồ |
-| 5    | Ngân sách          |
-| 6    | UI + hoàn thiện    |
+| Tuần | Nội dung                 |
+| ---- | ------------------------ |
+| 1    | Thiết kế database        |
+| 2    | CRUD ví                  |
+| 3    | CRUD giao dịch           |
+| 4    | Thống kê + biểu đồ       |
+| 5    | Ngân sách                |
+| 6    | Hoàn thiện UI & hệ thống |
 
 ---
 
@@ -177,19 +205,18 @@ dotnet wath run
 * Họ tên: Bùi Duy Khánh
 * MSSV: 170124742
 * Lớp: DK24TTC7
-* Email: khanhbd220801@tvu-onschool.edu.vn
+* Email: [khanhbd220801@tvu-onschool.edu.vn](mailto:khanhbd220801@tvu-onschool.edu.vn)
 
 ---
 
 ## 📌 Hướng phát triển
 
-* Thêm xuất Excel
-* Thêm thông báo vượt ngân sách
-* Mobile responsive hoàn chỉnh
+* Xuất báo cáo Excel
+* Thông báo khi vượt ngân sách
+* Hoàn thiện responsive cho mobile
 
 ---
 
 ## ⭐ Kết luận
 
-Hệ thống giúp người dùng theo dõi và kiểm soát tài chính hiệu quả thông qua giao diện trực quan và dễ sử dụng.
-
+Hệ thống giúp người dùng theo dõi và kiểm soát tài chính cá nhân một cách hiệu quả thông qua giao diện trực quan, dễ sử dụng và có khả năng mở rộng trong tương lai.

@@ -26,16 +26,13 @@
                             <label asp-for="Category" class="form-label fw-semibold">Danh Mục</label>
                             <div class="input-group">
                                 <span class="input-group-text">📂</span>
-                                <select asp-for="Category" class="form-select">
-                                    <option value="">-- Chọn danh mục --</option>
-                                    <option value="Ăn Uống">🍜 Ăn Uống</option>
-                                    <option value="Mua Sắm">🛒 Mua Sắm</option>
-                                    <option value="Giải Trí">🎮 Giải Trí</option>
-                                    <option value="Di Chuyển">🚗 Di Chuyển</option>
-                                    <option value="Hóa Đơn">💡 Hóa Đơn</option>
-                                    <option value="Khác">📦 Khác</option>
-                                </select>
+                                <input asp-for="Category"
+                                       class="form-control text-end"
+                                       type="text"
+                                       value="@Model.Category.ToString()"
+                                       placeholder="0" />
                             </div>
+                            
                             <span asp-validation-for="Category" class="text-danger small"></span>
                         </div>
 
