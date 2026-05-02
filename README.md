@@ -127,6 +127,7 @@ Views/
 ```bash
 git clone https://github.com/buiduykhanhbiz-del/ASPNET-dk24ttc7-buiduykhanh-efinance.git
 cd ASPNET-dk24ttc7-buiduykhanh-efinance
+cd src
 ```
 
 ---
